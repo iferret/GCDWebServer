@@ -25,39 +25,24 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <GCDWebServers/GCDWebServerRequest.h>
+#import <GCDWebServerRequest.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  The GCDWebServerDataRequest subclass of GCDWebServerRequest stores the body
- *  of the HTTP request in memory.
+ *  The GCDWebServerFileRequest subclass of GCDWebServerRequest stores the body
+ *  of the HTTP request to a file on disk.
  */
-@interface GCDWebServerDataRequest : GCDWebServerRequest
+@interface GCDWebServerFileRequest : GCDWebServerRequest
 
 /**
- *  Returns the data for the request body.
- */
-@property(nonatomic, readonly) NSData* data;
-
-@end
-
-@interface GCDWebServerDataRequest (Extensions)
-
-/**
- *  Returns the data for the request body interpreted as text. If the content
- *  type of the body is not a text one, or if an error occurs, nil is returned.
+ *  Returns the path to the temporary file containing the request body.
  *
- *  The text encoding used to interpret the data is extracted from the
- *  "Content-Type" header or defaults to UTF-8.
+ *  @warning This temporary file will be automatically deleted when the
+ *  GCDWebServerFileRequest is deallocated. If you want to preserve this file,
+ *  you must move it to a different location beforehand.
  */
-@property(nonatomic, readonly, nullable) NSString* text;
-
-/**
- *  Returns the data for the request body interpreted as a JSON object. If the
- *  content type of the body is not JSON, or if an error occurs, nil is returned.
- */
-@property(nonatomic, readonly, nullable) id jsonObject;
+@property(nonatomic, readonly) NSString* temporaryPath;
 
 @end
 
